@@ -17,7 +17,7 @@
     "build": "npm run clean && npm run babel && shx cp -rf src/style/*.less lib/style",
     "clean": "shx rm -rf lib site && shx echo clean Done"
   },
-  "homepage": "http://git.sdp.nd/component-h5/md-date-range",
+  "homepage": "http://git.sdp.nd/fed/component-boilerplate-single",
   "pre-commit": [
     "lint"
   ],
