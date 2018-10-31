@@ -1,5 +1,15 @@
 {
-  "presets": ["es2015", "react", "stage-0"],
+  "presets": [
+    "react",
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": ["last 2 versions", "Firefox ESR", "> 1%", "ie >= 9", "iOS >= 8", "Android >= 4"]
+        }
+      }
+    ]
+  ],
   "plugins": [
     "add-module-exports",
     [
@@ -11,9 +21,8 @@
       }
     ],
     "transform-decorators-legacy",
-    "transform-es3-member-expression-literals",
-    "transform-es3-property-literals",
-    "transform-proto-to-assign",
-    ["import", {"libraryName": "fish", "libraryDirectory": "lib", "style": true}]
+    "transform-class-properties",
+    "transform-object-rest-spread",
+    ["import", [{ "libraryName": "fish", "libraryDirectory": "lib", "style": true }]]
   ]
 }
