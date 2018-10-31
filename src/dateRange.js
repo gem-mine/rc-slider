@@ -51,7 +51,7 @@ export default class DateRange extends React.Component {
     this.setState({ value: timeRange })
     this.props.onChange && this.props.onChange(timeRange[0], timeRange[1])
   }
-  componentDidMount () {
+  componentDidMount() {
     let timeRange = this.getRangeBySelectValue(this.state.selectValue)
     if (!timeRange) {
       timeRange = DEFAULT_RANGE
@@ -59,7 +59,7 @@ export default class DateRange extends React.Component {
     this.setState({ value: timeRange })
     this.props.onDateRangeLoading && this.props.onDateRangeLoading(timeRange[0], timeRange[1])
   }
-  render () {
+  render() {
     const { locale = defaultLocale, prefixCls, className, style } = this.props
 
     return (
@@ -69,23 +69,23 @@ export default class DateRange extends React.Component {
           onChange={this.handleSelectChange}
           value={this.state.selectValue}
         >
-          <Select.Option value='day' title={locale['date.range.day']}>
+          <Select.Option value="day" title={locale['date.range.day']}>
             {locale['date.range.day']}
           </Select.Option>
-          <Select.Option value='week' title={locale['date.range.week']}>
+          <Select.Option value="week" title={locale['date.range.week']}>
             {locale['date.range.week']}
           </Select.Option>
-          <Select.Option value='lastWeek' title={locale['date.range.lastWeek']}>
+          <Select.Option value="lastWeek" title={locale['date.range.lastWeek']}>
             {locale['date.range.lastWeek']}
           </Select.Option>
-          <Select.Option value='month' title={locale['date.range.month']}>
+          <Select.Option value="month" title={locale['date.range.month']}>
             {locale['date.range.month']}
           </Select.Option>
-          <Select.Option value='all' title={locale['date.range.all']}>
+          <Select.Option value="all" title={locale['date.range.all']}>
             {locale['date.range.all']}
           </Select.Option>
           <Select.Option
-            value='custom'
+            value="custom"
             title={locale['date.range.custom']}
             style={{ display: this.state.showCustom ? 'block' : 'none' }}
           >
