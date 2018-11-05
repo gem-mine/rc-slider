@@ -23,7 +23,8 @@
   ],
   "author": "666595 <pengxing201@163.com>",
   "files": [
-    "lib"
+    "lib",
+    "dist"
   ],
   "dependencies": {
     "@sdp.nd/fish": "^2.11.0",
