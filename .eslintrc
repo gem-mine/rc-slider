@@ -2,5 +2,11 @@
   "root": true,
   "extends": [
     "@sdp.nd/react"
-  ]
+  ],
+  "rules": {
+    "semi": 0,
+    "comma-dangle": ["error", "always-multiline"],
+    "operator-linebreak": 0,
+    "react/no-unused-prop-types": 0
+  }
 }
