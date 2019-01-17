@@ -1,7 +1,10 @@
-// 多文件复杂组件
-// export const OverLayer = require('./overLayer/OverLayer')
-// export const Marker = require('./overLayer/Marker')
-// 单文件组件
-import DateRange from './dateRange'
+import Slider from './Slider';
+import Range from './Range';
+import Handle from './Handle';
+import createSliderWithTooltip from './createSliderWithTooltip';
 
-export default DateRange
+Slider.Range = Range;
+Slider.Handle = Handle;
+Slider.createSliderWithTooltip = createSliderWithTooltip;
+export default Slider;
+export { Range, Handle, createSliderWithTooltip };
