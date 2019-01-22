@@ -1,6 +1,6 @@
 {
   "name": "@sdp.nd/rc-slider",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Slider",
   "license": "MIT",
   "main": "lib/index.js",
@@ -27,7 +27,6 @@
     "dist"
   ],
   "dependencies": {
-    "@sdp.nd/fish": "^2.11.0",
     "classnames": "~2.2.0",
     "rc-tooltip": "^3.7.3"
   },
