@@ -361,7 +361,11 @@ ReactDOM.render(
 ### slider
 
 ```jsx
+/* eslint react/no-multi-comp: 0, max-len: 0 */
 import '@sdp.nd/rc-slider/lib/style/';
+
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Slider, { createSliderWithTooltip } from '@sdp.nd/rc-slider';
 
 const style = { width: 600, margin: 50 };
@@ -440,12 +444,15 @@ class DynamicBounds extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      min: 0,
+      min: 1,
       max: 100,
+      step: 10,
+      value: 1,
     };
   }
   onSliderChange = (value) => {
     log(value);
+    this.setState({value});
   }
   onMinChange = (e) => {
     this.setState({
@@ -457,16 +464,28 @@ class DynamicBounds extends React.Component {
       max: +e.target.value || 100,
     });
   }
+  onStepChange = (e) => {
+    this.setState({
+      step: +e.target.value || 1,
+    });
+  }
   render() {
+    const labelStyle = { minWidth: '60px', display: 'inline-block' };
+    const inputStyle = { marginBottom: '10px'};
     return (
       <div>
-        <label>Min: </label>
-        <input type="number" value={this.state.min} onChange={this.onMinChange} />
+        <label style={labelStyle}>Min: </label>
+        <input type="number" value={this.state.min} onChange={this.onMinChange} style={inputStyle} />
         <br />
-        <label>Max: </label>
-        <input type="number" value={this.state.max} onChange={this.onMaxChange} />
+        <label style={labelStyle}>Max: </label>
+        <input type="number" value={this.state.max} onChange={this.onMaxChange} style={inputStyle} />
+        <br />
+        <label style={labelStyle}>Step: </label>
+        <input type="number" value={this.state.step} onChange={this.onStepChange} style={inputStyle} />
         <br /><br />
-        <Slider defaultValue={50} min={this.state.min} max={this.state.max}
+        <label style={labelStyle}>Value: </label><span>{this.state.value}</span>
+        <br /><br />
+        <Slider value={this.state.value} min={this.state.min} max={this.state.max} step={this.state.step}
           onChange={this.onSliderChange}
         />
       </div>
@@ -549,11 +568,12 @@ ReactDOM.render(
       <NullableSlider />
     </div>
     <div style={style}>
-      <p>Slider with dynamic `min` `max`</p>
+      <p>Slider with dynamic `min` `max` `step`</p>
       <DynamicBounds />
     </div>
   </div>
   , mountNode);
+
 ```
 
 ### vertical
