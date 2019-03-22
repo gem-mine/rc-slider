@@ -361,11 +361,7 @@ ReactDOM.render(
 ### slider
 
 ```jsx
-/* eslint react/no-multi-comp: 0, max-len: 0 */
 import '@sdp.nd/rc-slider/lib/style/';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
 import Slider, { createSliderWithTooltip } from '@sdp.nd/rc-slider';
 
 const style = { width: 600, margin: 50 };
