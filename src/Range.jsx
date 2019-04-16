@@ -118,7 +118,7 @@ class Range extends React.Component {
     const { handle } = this.state;
     this.removeDocumentEvents();
 
-    if (handle || force) {
+    if (handle !== null || force) {
       this.props.onAfterChange(this.getValue());
     }
 
@@ -236,9 +236,11 @@ class Range extends React.Component {
       // so trigger focus will invoke handler's onEnd and another handler's onStart too early,
       // cause onBeforeChange and onAfterChange receive wrong value.
       // here use setState callback to hack，but not elegant
+      this.props.onAfterChange(nextBounds);
       this.setState({}, () => {
         this.handlesRefs[nextHandle].focus();
       });
+      this.onEnd()
     }
   }
 
