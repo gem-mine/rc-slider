@@ -10,6 +10,7 @@ import * as utils from './utils';
 class Range extends React.Component {
   static displayName = 'Range';
   static propTypes = {
+    autoFocus: PropTypes.bool,
     defaultValue: PropTypes.arrayOf(PropTypes.number),
     value: PropTypes.arrayOf(PropTypes.number),
     count: PropTypes.number,
@@ -79,8 +80,18 @@ class Range extends React.Component {
     const isNotControlled = !('value' in props);
     if (isNotControlled) {
       this.setState(state);
-    } else if (state.handle !== undefined) {
-      this.setState({ handle: state.handle });
+    } else {
+      const controlledState = {};
+
+      ['handle', 'recent'].forEach((item) => {
+        if (state[item] !== undefined) {
+          controlledState[item] = state[item];
+        }
+      });
+
+      if (Object.keys(controlledState).length) {
+        this.setState(controlledState);
+      }
     }
 
     const data = { ...this.state, ...state };
@@ -162,7 +173,7 @@ class Range extends React.Component {
     const { bounds } = this.state;
     let closestBound = 0;
     for (let i = 1; i < bounds.length - 1; ++i) {
-      if (value > bounds[i]) { closestBound = i; }
+      if (value >= bounds[i]) { closestBound = i; }
     }
     if (Math.abs(bounds[closestBound + 1] - value) < Math.abs(bounds[closestBound] - value)) {
       closestBound += 1;
@@ -227,6 +238,7 @@ class Range extends React.Component {
       nextHandle = nextBounds.indexOf(value);
     }
     this.onChange({
+      recent: nextHandle,
       handle: nextHandle,
       bounds: nextBounds,
     });
