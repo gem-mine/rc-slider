@@ -55,8 +55,8 @@ class Range extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!('value' in nextProps || 'min' in nextProps || 'max' in nextProps)) return;
     if (this.props.min === nextProps.min &&
-        this.props.max === nextProps.max &&
-        shallowEqual(this.props.value, nextProps.value)) {
+      this.props.max === nextProps.max &&
+      shallowEqual(this.props.value, nextProps.value)) {
       return;
     }
 
@@ -129,7 +129,7 @@ class Range extends React.Component {
     const { handle } = this.state;
     this.removeDocumentEvents();
 
-    if (handle || force) {
+    if (handle !== null || force) {
       this.props.onAfterChange(this.getValue());
     }
 
@@ -156,7 +156,7 @@ class Range extends React.Component {
       utils.pauseEvent(e);
       const { state, props } = this;
       const { bounds, handle } = state;
-      const oldValue = bounds[handle];
+      const oldValue = bounds[handle === null ? state.recent : handle];
       const mutatedValue = valueMutator(oldValue, props);
       const value = this.trimAlignValue(mutatedValue);
       if (value === oldValue) return;
@@ -229,8 +229,9 @@ class Range extends React.Component {
   moveTo(value, isFromKeyboardEvent) {
     const { state, props } = this;
     const nextBounds = [...state.bounds];
-    nextBounds[state.handle] = value;
-    let nextHandle = state.handle;
+    const handle = state.handle === null ? state.recent : state.handle;
+    nextBounds[handle] = value;
+    let nextHandle = handle;
     if (props.pushable !== false) {
       this.pushSurroundingHandles(nextBounds, nextHandle);
     } else if (props.allowCross) {
@@ -247,9 +248,11 @@ class Range extends React.Component {
       // so trigger focus will invoke handler's onEnd and another handler's onStart too early,
       // cause onBeforeChange and onAfterChange receive wrong value.
       // here use setState callback to hack，but not elegant
+      this.props.onAfterChange(nextBounds);
       this.setState({}, () => {
         this.handlesRefs[nextHandle].focus();
       });
+      this.onEnd()
     }
   }
 
@@ -359,24 +362,30 @@ class Range extends React.Component {
     const offsets = bounds.map(v => this.calcOffset(v));
 
     const handleClassName = `${prefixCls}-handle`;
-    const handles = bounds.map((v, i) => handleGenerator({
-      className: classNames({
-        [handleClassName]: true,
-        [`${handleClassName}-${i + 1}`]: true,
-      }),
-      prefixCls,
-      vertical,
-      offset: offsets[i],
-      value: v,
-      dragging: handle === i,
-      index: i,
-      tabIndex: tabIndex[i] || 0,
-      min,
-      max,
-      disabled,
-      style: handleStyle[i],
-      ref: h => this.saveHandle(i, h),
-    }));
+    const handles = bounds.map((v, i) => {
+      let _tabIndex = tabIndex[i] || 0;
+      if (disabled || tabIndex[i] === null) {
+        _tabIndex = null;
+      }
+      return handleGenerator({
+        className: classNames({
+          [handleClassName]: true,
+          [`${handleClassName}-${i + 1}`]: true,
+        }),
+        prefixCls,
+        vertical,
+        offset: offsets[i],
+        value: v,
+        dragging: handle === i,
+        index: i,
+        tabIndex: _tabIndex,
+        min,
+        max,
+        disabled,
+        style: handleStyle[i],
+        ref: h => this.saveHandle(i, h),
+      })
+    });
 
     const tracks = bounds.slice(0, -1).map((_, index) => {
       const i = index + 1;

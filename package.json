@@ -28,7 +28,8 @@
   ],
   "dependencies": {
     "classnames": "~2.2.0",
-    "rc-tooltip": "^3.7.3"
+    "rc-tooltip": "^3.7.3",
+    "warning": "^3.0.0"
   },
   "devDependencies": {
     "@sdp.nd/eslint-config-react": "^3.0.1",
