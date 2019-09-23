@@ -15,7 +15,7 @@ IE 9+
 ## 安装
 
 ```bash
-npm install @sdp.nd/rc-slider --save
+npm install @gem-mine/rc-slider --save
 ```
 
 ## 运行
@@ -41,10 +41,10 @@ npm run site
 ### handle
 
 ```jsx
-import '@sdp.nd/rc-slider/lib/style/';
+import '@gem-mine/rc-slider/lib/style/';
 import 'rc-tooltip/assets/bootstrap.css';
 import Tooltip from 'rc-tooltip';
-import Slider from '@sdp.nd/rc-slider';
+import Slider from '@gem-mine/rc-slider';
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -88,8 +88,8 @@ ReactDOM.render(
 ### marks
 
 ```jsx
-import '@sdp.nd/rc-slider/lib/style/';
-import Slider from '@sdp.nd/rc-slider';
+import '@gem-mine/rc-slider/lib/style/';
+import Slider from '@gem-mine/rc-slider';
 
 const style = { width: 400, margin: 50 };
 const marks = {
@@ -145,8 +145,8 @@ ReactDOM.render(
 ### range
 
 ```jsx
-import '@sdp.nd/rc-slider/lib/style/';
-import Slider from '@sdp.nd/rc-slider';
+import '@gem-mine/rc-slider/lib/style/';
+import Slider from '@gem-mine/rc-slider';
 
 const Range = Slider.Range;
 
@@ -361,8 +361,8 @@ ReactDOM.render(
 ### slider
 
 ```jsx
-import '@sdp.nd/rc-slider/lib/style/';
-import Slider, { createSliderWithTooltip } from '@sdp.nd/rc-slider';
+import '@gem-mine/rc-slider/lib/style/';
+import Slider, { createSliderWithTooltip } from '@gem-mine/rc-slider';
 
 const style = { width: 600, margin: 50 };
 
@@ -575,8 +575,8 @@ ReactDOM.render(
 ### vertical
 
 ```jsx
-import '@sdp.nd/rc-slider/lib/style/';
-import Slider from '@sdp.nd/rc-slider';
+import '@gem-mine/rc-slider/lib/style/';
+import Slider from '@gem-mine/rc-slider';
 
 const style = { float: 'left', width: 160, height: 400, marginBottom: 160, marginLeft: 50 };
 const parentStyle = { overflow: 'hidden' };
@@ -639,7 +639,7 @@ ReactDOM.render(
 An extension to make Slider or Range support Tooltip on handle.
 
 ```
-const Slider = require('@sdp.nd/rc-slider');
+const Slider = require('@gem-mine/rc-slider');
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 ```
