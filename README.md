@@ -73,6 +73,10 @@ ReactDOM.render(
       <Slider min={0} max={20} defaultValue={3} handle={handle} />
     </div>
     <div style={wrapperStyle}>
+      <p>Reversed Slider with custom handle</p>
+      <Slider min={0} max={20} reverse defaultValue={3} handle={handle} />
+    </div>
+    <div style={wrapperStyle}>
       <p>Slider with fixed values</p>
       <Slider min={20} defaultValue={20} marks={{ 20: 20, 40: 40, 100: 100 }} step={null} />
     </div>
@@ -125,6 +129,12 @@ ReactDOM.render(
       <p>Slider with marks, `included=false`</p>
       <Slider min={-10} marks={marks} included={false} defaultValue={20} />
     </div>
+
+    <div style={style}>
+      <p>Reversed Slider with marks and steps</p>
+      <Slider dots reverse min={-10} marks={marks} step={10} onChange={log} defaultValue={20} />
+    </div>
+
     <div style={style}>
       <p>Slider with marks and steps, `included=false`</p>
       <Slider min={-10} marks={marks} step={10} included={false} defaultValue={20} />
@@ -305,6 +315,10 @@ ReactDOM.render(
     <div style={style}>
       <p>Basic Range，`allowCross=false`</p>
       <Range allowCross={false} defaultValue={[0, 20]} onChange={log} />
+    </div>
+    <div style={style}>
+      <p>Basic reverse Range`</p>
+      <Range allowCross={false} defaultValue={[0, 20]} onChange={log} reverse />
     </div>
     <div style={style}>
       <p>Basic Range，`step=20` </p>
@@ -496,6 +510,10 @@ ReactDOM.render(
       <Slider onChange={log} />
     </div>
     <div style={style}>
+      <p>Slider reverse</p>
+      <Slider onChange={log} reverse min={20} max={60}/>
+    </div>
+    <div style={style}>
       <p>Basic Slider，`step=20`</p>
       <Slider step={20} defaultValue={50} onBeforeChange={log} />
     </div>
@@ -607,6 +625,10 @@ ReactDOM.render(
       <Slider vertical min={-10} marks={marks} step={null} onChange={log} defaultValue={20} />
     </div>
     <div style={style}>
+      <p>Reverse Slider with marks, `step=null`</p>
+      <Slider vertical min={-10} marks={marks} step={null} onChange={log} defaultValue={20} reverse />
+    </div>
+    <div style={style}>
       <p style={pStyle}>Slider with marks and steps</p>
       <Slider vertical dots min={-10} marks={marks} step={10} onChange={log} defaultValue={20} />
     </div>
@@ -679,6 +701,7 @@ The following APIs are shared by Slider and Range.
 | railStyle | Object | `{}` | The style used for the track base color.  |
 | dotStyle | Object | `{}` | The style used for the dots. |
 | activeDotStyle | Object | `{}` | The style used for the active dots. |
+| reverse | boolean | `false` | If the value is `true`, it means the component is rendered reverse. |
 
 ### Slider
 

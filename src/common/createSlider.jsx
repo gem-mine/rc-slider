@@ -31,6 +31,7 @@ export default function createSlider(Component) {
       dots: PropTypes.bool,
       vertical: PropTypes.bool,
       style: PropTypes.object,
+      reverse: PropTypes.bool,
       minimumTrackStyle: PropTypes.object, // just for compatibility, will be deperecate
       maximumTrackStyle: PropTypes.object, // just for compatibility, will be deperecate
       handleStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
@@ -66,6 +67,7 @@ export default function createSlider(Component) {
       disabled: false,
       dots: false,
       vertical: false,
+      reverse: false,
       trackStyle: [{}],
       handleStyle: [{}],
       railStyle: {},
@@ -76,16 +78,14 @@ export default function createSlider(Component) {
     constructor(props) {
       super(props);
 
-      if (utils.isDev()) {
-        const { step, max, min } = props;
-        const isPointDiffEven = isFinite(max - min) ? (max - min) % step === 0 : true; // eslint-disable-line
-        warning(
-          step && Math.floor(step) === step ? isPointDiffEven : true,
-          'Slider[max] - Slider[min] (%s) should be a multiple of Slider[step] (%s)',
-          max - min,
-          step
-        );
-      }
+      const { step, max, min } = props;
+      const isPointDiffEven = isFinite(max - min) ? (max - min) % step === 0 : true; // eslint-disable-line
+      warning(
+        step && Math.floor(step) === step ? isPointDiffEven : true,
+        'Slider[max] - Slider[min] (%s) should be a multiple of Slider[step] (%s)',
+        max - min,
+        step
+      );
       this.handlesRefs = {};
     }
 
@@ -198,9 +198,12 @@ export default function createSlider(Component) {
 
     getSliderStart() {
       const slider = this.sliderRef;
+      const { vertical, reverse } = this.props;
       const rect = slider.getBoundingClientRect();
-
-      return this.props.vertical ? rect.top : (rect.left + window.pageXOffset);
+      if (vertical) {
+        return reverse ? rect.bottom : rect.top;
+      }
+      return window.pageXOffset + (reverse ? rect.right : rect.left);
     }
 
     getSliderLength() {
@@ -258,7 +261,8 @@ export default function createSlider(Component) {
     }
 
     calcValueByPos(position) {
-      const pixelOffset = position - this.getSliderStart();
+      const sign = this.props.reverse ? -1 : +1;
+      const pixelOffset = sign * (position - this.getSliderStart());
       const nextValue = this.trimAlignValue(this.calcValue(pixelOffset));
       return nextValue;
     }
@@ -287,6 +291,7 @@ export default function createSlider(Component) {
         included,
         disabled,
         vertical,
+        reverse,
         min,
         max,
         children,
@@ -327,6 +332,7 @@ export default function createSlider(Component) {
           <Steps
             prefixCls={prefixCls}
             vertical={vertical}
+            reverse={reverse}
             marks={marks}
             dots={dots}
             step={step}
@@ -349,6 +355,7 @@ export default function createSlider(Component) {
             upperBound={this.getUpperBound()}
             max={max}
             min={min}
+            reverse={reverse}
           />
           {children}
         </div>
