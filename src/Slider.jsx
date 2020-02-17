@@ -13,6 +13,7 @@ class Slider extends React.Component {
     disabled: PropTypes.bool,
     autoFocus: PropTypes.bool,
     tabIndex: PropTypes.number,
+    reverse: PropTypes.bool,
     min: PropTypes.number,
     max: PropTypes.number,
   };
@@ -29,30 +30,30 @@ class Slider extends React.Component {
       value: this.trimAlignValue(value),
       dragging: false,
     };
-    if (utils.isDev()) {
-      warning(
-        !('minimumTrackStyle' in props),
-        'minimumTrackStyle will be deprecated, please use trackStyle instead.'
-      );
-      warning(
-        !('maximumTrackStyle' in props),
-        'maximumTrackStyle will be deprecated, please use railStyle instead.'
-      );
-    }
+
+    warning(
+      !('minimumTrackStyle' in props),
+      'minimumTrackStyle will be deprecated, please use trackStyle instead.'
+    );
+    warning(
+      !('maximumTrackStyle' in props),
+      'maximumTrackStyle will be deprecated, please use railStyle instead.'
+    );
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!('value' in nextProps || 'min' in nextProps || 'max' in nextProps)) return;
-
-    const prevValue = this.state.value;
-    const value = nextProps.value !== undefined ?
-      nextProps.value : prevValue;
-    const nextValue = this.trimAlignValue(value, nextProps);
-    if (nextValue === prevValue) return;
-
-    this.setState({ value: nextValue });
-    if (utils.isValueOutOfRange(value, nextProps)) {
-      this.props.onChange(nextValue);
+  componentDidUpdate(prevProps, prevState) {
+    if (!('value' in this.props || 'min' in this.props || 'max' in this.props)) {
+      return;
+    }
+    const { value, onChange } = this.props;
+    const theValue = value !== undefined ? value : prevState.value;
+    const nextValue = this.trimAlignValue(theValue, this.props);
+    if (nextValue !== prevState.value) {
+      // eslint-disable-next-line
+      this.setState({ value: nextValue });
+      if (utils.isValueOutOfRange(theValue, this.props)) {
+        onChange(nextValue);
+      }
     }
   }
 
@@ -104,7 +105,8 @@ class Slider extends React.Component {
   }
 
   onKeyboard(e) {
-    const valueMutator = utils.getKeyboardValueMutator(e);
+    const { reverse, vertical } = this.props;
+    const valueMutator = utils.getKeyboardValueMutator(e, vertical, reverse);
 
     if (valueMutator) {
       utils.pauseEvent(e);
@@ -154,6 +156,7 @@ class Slider extends React.Component {
       tabIndex,
       min,
       max,
+      reverse,
       handle: handleGenerator,
     } = this.props;
     const { value, dragging } = this.state;
@@ -168,6 +171,7 @@ class Slider extends React.Component {
       disabled,
       min,
       max,
+      reverse,
       index: 0,
       tabIndex,
       style: handleStyle[0] || handleStyle,
@@ -181,6 +185,7 @@ class Slider extends React.Component {
         vertical={vertical}
         included={included}
         offset={0}
+        reverse={reverse}
         length={offset}
         style={{
           ...minimumTrackStyle,
